@@ -10,13 +10,13 @@ class Symbol {
         this.y = y;
         this.fontSize = fontSize;
         this.text = '';
-        this.canvasHeight = canvasHeight
+        this.canvasHeight = canvasHeight;
     }
     draw(context) {
         this.text = this.characters[Math.floor(this.characters.length * Math.random())];
-        context.fillStyle = '#0a0ff0a';
+        context.fillStyle = '#0aff0a';
         context.fillText(this.text, this.x * this.fontSize, this.y * this.fontSize);
-        if (this.y * this.fontSize > this.canvasHeight) {
+        if (this.y * this.fontSize > this.canvasHeight && Math.random() > 0.98) {
             this.y = 0;
         } else {
             this.y++;
@@ -31,16 +31,23 @@ class Effect {
         this.fontSize = 25;
         this.columns = this.canvasWidth / this.fontSize;
         this.symbols = [];
+        this.#initialize();
+        console.log(this.symbols);
     }
-
     #initialize() { //private method
-
         for (let i = 0; i < this.columns; i++) {
-            this.symbols.push(new Symbbol());
+            this.symbols.push(new Symbol(i, 0, this.fontSize, this.canvasHeight));
         }
     }
 }
 
+const effect = new Effect(canvas.width, canvas.height);
 function animate() {
-
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.font = effect.fontSize + 'px monospace';
+    effect.symbols.forEach(symbol => symbol.draw(ctx));
+    requestAnimationFrame(animate);
 }
+
+animate();
