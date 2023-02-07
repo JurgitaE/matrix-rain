@@ -38,7 +38,7 @@ class Effect {
     constructor(canvasWidth, canvasHeight) {
         this.canvasWidth = canvasWidth;
         this.canvasHeight = canvasHeight;
-        this.fontSize = 25;
+        this.fontSize = this.canvasWidth > 450 ? 25 : 12;
         this.columns = this.canvasWidth / this.fontSize;
         this.symbols = [];
         this.#initialize();
@@ -49,8 +49,6 @@ class Effect {
             this.symbols.push(new Symbol(i, 0, this.fontSize, this.canvasHeight));
         }
     }
-
-
 
     resize(width, height) {
         this.canvasWidth = width;
@@ -63,7 +61,7 @@ class Effect {
 
 const effect = new Effect(canvas.width, canvas.height);
 let lastTime = 0;
-const fps = 25; //fps - frames per second
+const fps = canvas.width > 450 ? 25 : 50; //fps - frames per second
 const nextFrame = 1000 / fps;
 let timer = 0;
 
