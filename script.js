@@ -14,7 +14,7 @@ class Symbol {
     }
     draw(context) {
         this.text = this.characters[Math.floor(this.characters.length * Math.random())];
-        context.fillStyle = '#0aff0a';
+
         context.fillText(this.text, this.x * this.fontSize, this.y * this.fontSize);
         if (this.y * this.fontSize > this.canvasHeight && Math.random() > 0.98) {
             this.y = 0;
@@ -39,11 +39,21 @@ class Effect {
             this.symbols.push(new Symbol(i, 0, this.fontSize, this.canvasHeight));
         }
     }
+
+
+
+    resize(width, height) {
+        this.canvasWidth = width;
+        this.canvasHeight = height;
+        this.columns = this.canvasWidth / this.fontSize;
+        this.symbols = [];
+        this.#initialize();
+    };
 }
 
 const effect = new Effect(canvas.width, canvas.height);
 let lastTime = 0;
-const fps = 15; //fps - frames per second
+const fps = 30; //fps - frames per second
 const nextFrame = 1000 / fps;
 let timer = 0;
 
@@ -52,7 +62,9 @@ function animate(timeStamp) {
     lastTime = timeStamp;
     if (timer > nextFrame) {
         ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.textAlign = 'center';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#0aff0a';
         ctx.font = effect.fontSize + 'px monospace';
         effect.symbols.forEach(symbol => symbol.draw(ctx));
         timer = 0;
@@ -63,3 +75,9 @@ function animate(timeStamp) {
 }
 
 animate(0);
+
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    effect.resize(canvas.width, canvas.height);
+})
