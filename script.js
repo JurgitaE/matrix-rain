@@ -3,6 +3,16 @@ const ctx = canvas.getContext('2d'); //context object
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+// let gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+let gradient = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 100, canvas.width / 2, canvas.height / 2, canvas.width / 2);
+gradient.addColorStop(0, 'red')
+// gradient.addColorStop(0.2, 'yellow')
+// gradient.addColorStop(0.4, 'green')
+gradient.addColorStop(0.6, 'cyan')
+// gradient.addColorStop(0.8, 'blue')
+gradient.addColorStop(1, 'magenta')
+
+
 class Symbol {
     constructor(x, y, fontSize, canvasHeight) {
         this.characters = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -53,7 +63,7 @@ class Effect {
 
 const effect = new Effect(canvas.width, canvas.height);
 let lastTime = 0;
-const fps = 30; //fps - frames per second
+const fps = 25; //fps - frames per second
 const nextFrame = 1000 / fps;
 let timer = 0;
 
@@ -64,7 +74,7 @@ function animate(timeStamp) {
         ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
         ctx.textAlign = 'center';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#0aff0a';
+        ctx.fillStyle = gradient;//'#0aff0a'
         ctx.font = effect.fontSize + 'px monospace';
         effect.symbols.forEach(symbol => symbol.draw(ctx));
         timer = 0;
@@ -80,4 +90,11 @@ window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     effect.resize(canvas.width, canvas.height);
+    gradient = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 100, canvas.width / 2, canvas.height / 2, canvas.width / 2);
+    gradient.addColorStop(0, 'red')
+    // gradient.addColorStop(0.2, 'yellow')
+    // gradient.addColorStop(0.4, 'green')
+    gradient.addColorStop(0.6, 'cyan')
+    // gradient.addColorStop(0.8, 'blue')
+    gradient.addColorStop(1, 'magenta')
 })
